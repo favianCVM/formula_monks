@@ -1,17 +1,34 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {RouterProps} from './type';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+import {RootStackParamList} from './type';
+
 import {HomeScreen} from '../../views/HomeScreen';
+import {PostDetails} from '../../views/PostDetails';
 
-const Stack = createNativeStackNavigator();
+const RootStack = createNativeStackNavigator<RootStackParamList>();
 
-export const Router: React.FC<RouterProps> = () => {
+export const Router = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-      </Stack.Navigator>
+      <RootStack.Navigator initialRouteName="Home">
+        <RootStack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Home"
+          component={HomeScreen}
+        />
+        <RootStack.Screen
+          options={{
+            headerShown: true,
+            title: 'Post details',
+          }}
+          name="PostDetails"
+          component={PostDetails}
+        />
+      </RootStack.Navigator>
     </NavigationContainer>
   );
 };

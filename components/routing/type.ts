@@ -1,3 +1,10 @@
-import { NavigationContainerProps } from '@react-navigation/native';
+import {Post} from '../../store/reducers/posts';
 
-export interface RouterProps extends Omit<NavigationContainerProps, "children"> { };
+// type Props = NativeStackScreenProps<RootStackParamList, 'Profile'>;
+
+export type RootStackParamList = {
+  Home: undefined;
+  PostDetails: {
+    postId: Post['id'];
+  };
+};
