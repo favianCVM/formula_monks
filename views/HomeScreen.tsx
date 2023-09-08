@@ -11,6 +11,7 @@ import {PostCard} from '../components/postCard';
 import {ViewLayout} from '../components/layout/ViewLayout';
 import {useBoolean} from '../hooks/useBoolean';
 import {Title} from '../components/fragments/Title';
+import {normalize} from '../libs/normalizeSize';
 
 type HomeScreenNavigationProp = NativeStackScreenProps<
   RootStackParamList,
@@ -56,16 +57,19 @@ export const HomeScreen = ({navigation}: HomeScreenNavigationProp) => {
 
   return (
     <ViewLayout>
-      <Title>Favorites: {favorites.length}</Title>
+      <Title style={{marginBottom: 12}}>Favorites: {favorites.length} </Title>
 
       {isLoading ? (
         <>
           <Skeleton color="pink" bR={4} w={200} h={49} />
         </>
       ) : (
-        <GestureHandlerRootView>
+        <GestureHandlerRootView style={{flex: 1}}>
           <FlatList
-            data={posts}
+            data={[...posts].sort(a => (favorites.includes(a.id) ? -1 : 1))}
+            contentContainerStyle={{
+              paddingHorizontal: normalize(15),
+            }}
             keyExtractor={({id}) => `post-${id}`}
             renderItem={({item}) => (
               <PostCard
