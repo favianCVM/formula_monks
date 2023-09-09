@@ -1,10 +1,6 @@
 import React from 'react';
-import {Post} from '../../store/reducers/posts';
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-} from 'react-native';
+import {Post, removePost} from '../../store/reducers/posts';
+import {Pressable, StyleSheet, Text} from 'react-native';
 import {COLORS} from '../../styles/colors';
 import {useAppDispatch} from '../../hooks';
 import {addFavorite, removeFavorite} from '../../store/reducers/posts';
@@ -68,6 +64,11 @@ const PostCard = React.memo(
       dispatch(isFavorite ? removeFavorite(id) : addFavorite(id));
     };
 
+    const handleDeletePost = () => {
+      if (isFavorite) dispatch(removeFavorite(id));
+      dispatch(removePost(id));
+    };
+
     return (
       <Pressable
         testID="PostCard"
@@ -80,7 +81,23 @@ const PostCard = React.memo(
         </Text>
         <Icon.Button
           style={{
-            padding: 4,
+            paddingVertical: 4,
+            paddingHorizontal: 0,
+            marginLeft: 4,
+            borderRadius: 5,
+          }}
+          onPress={handleDeletePost}
+          testID="PostCardDeletePressable"
+          size={35}
+          name="trash-can"
+          backgroundColor={'transparent'}
+          underlayColor={COLORS.red}
+          color={COLORS.text}
+        />
+        <Icon.Button
+          style={{
+            paddingVertical: 4,
+            paddingHorizontal: 0,
             marginLeft: 4,
             borderRadius: 5,
           }}

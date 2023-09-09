@@ -1,5 +1,5 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from "../index"
+import { RootState } from '../index';
 export interface Post {
   userId: string;
   id: number;
@@ -8,7 +8,7 @@ export interface Post {
 }
 
 export interface Rating {
-  id: Post['id'],
+  id: Post['id'];
   value: number;
 }
 interface PostsState {
@@ -20,7 +20,7 @@ interface PostsState {
 const initialState: PostsState = {
   favorites: [],
   ratings: [],
-  posts: []
+  posts: [],
 };
 
 export const postsSlice = createSlice({
@@ -28,10 +28,15 @@ export const postsSlice = createSlice({
   initialState,
   reducers: {
     setPosts: (state, { payload }: PayloadAction<Array<Post>>) => {
-      state.posts = [...payload]
+      state.posts = [...payload];
     },
-    filterFavoritePosts: (state) => {
-      state.posts = [...state.posts.filter(({ id }) => state.favorites.includes(id))]
+    removePost: (state, { payload }: PayloadAction<Post['id']>) => {
+      state.posts = [...state.posts.filter(({ id }) => id !== payload)];
+    },
+    filterFavoritePosts: state => {
+      state.posts = [
+        ...state.posts.filter(({ id }) => state.favorites.includes(id)),
+      ];
     },
     addFavorite: (state, { payload }: PayloadAction<Post['id']>) => {
       state.favorites = [...state.favorites, payload];
@@ -42,11 +47,13 @@ export const postsSlice = createSlice({
       state.favorites = [...newFavorites];
     },
     addPostRating: (state, { payload }: PayloadAction<Rating>) => {
-      const existingRating = state.ratings.findIndex(({ id }) => id === payload.id);
+      const existingRating = state.ratings.findIndex(
+        ({ id }) => id === payload.id,
+      );
 
-      if (typeof existingRating === "number") {
+      if (typeof existingRating === 'number') {
         const newRatings = [...state.ratings];
-        newRatings.splice(existingRating, 1, payload)
+        newRatings.splice(existingRating, 1, payload);
         state.ratings = [...newRatings];
       } else {
         state.ratings = [...state.ratings, payload];
@@ -55,10 +62,18 @@ export const postsSlice = createSlice({
   },
 });
 
-export const { addFavorite, removeFavorite, setPosts, filterFavoritePosts, addPostRating } = postsSlice.actions;
+export const {
+  addFavorite,
+  removeFavorite,
+  setPosts,
+  filterFavoritePosts,
+  addPostRating,
+  removePost,
+} = postsSlice.actions;
 
 export const getPostRating = createSelector(
-  (state: RootState, postId: number) => state.posts.ratings.find(({ id }) => id === postId) || { value: 0, id: postId },
+  (state: RootState, postId: number) =>
+    state.posts.ratings.find(({ id }) => id === postId) || { value: 0, id: postId },
   postState => postState,
 );
 
