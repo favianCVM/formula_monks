@@ -1,9 +1,9 @@
 import React from 'react';
 import {View} from 'react-native';
-import {AuthorInformation} from '../../views/PostDetails';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {Text} from '../fragments/Text';
 import {COLORS} from '../../styles/colors';
+import { AuthorInformation } from '../../store/reducers/posts';
 
 const AuthorCard = React.memo(
   ({

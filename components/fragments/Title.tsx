@@ -15,7 +15,11 @@ const styles = StyleSheet.create({
 });
 
 const Title = React.memo(({style, children}: TextProps) => {
-  return <Text style={[styles.title, style]}>{children}</Text>;
+  return (
+    <Text testID="TitleFragment" style={[styles.title, style]}>
+      {children}
+    </Text>
+  );
 });
 
 export {Title};

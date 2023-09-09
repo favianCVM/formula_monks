@@ -109,7 +109,7 @@ export const postsSlice = createSlice({
         ({id}) => id === payload.id,
       );
 
-      if (typeof existingRating === 'number' && existingRating > 0) {
+      if (typeof existingRating === 'number' && existingRating >= 0) {
         const newRatings = [...state.ratings];
         newRatings.splice(existingRating, 1, payload);
         state.ratings = [...newRatings];
@@ -122,7 +122,7 @@ export const postsSlice = createSlice({
         ({id}) => id === payload.id,
       );
 
-      if (typeof existingDetails === 'number' && existingDetails > 0) {
+      if (typeof existingDetails === 'number' && existingDetails >= 0) {
         const newDetails = [...state.postDetails];
         newDetails.splice(existingDetails, 1, payload);
         state.postDetails = [...newDetails];

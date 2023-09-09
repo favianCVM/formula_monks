@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Text} from '../fragments/Text';
-import {PostComment} from '../../views/PostDetails';
 import {COLORS} from '../../styles/colors';
+import {PostComment} from '../../store/reducers/posts';
 
-interface CommentCardProps extends PostComment {}
+interface CommentCardProps extends Partial<PostComment> {}
 
 const styles = StyleSheet.create({
   container: {
@@ -21,12 +21,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const CommentCard = React.memo(({body, email, id, name}: CommentCardProps) => {
+const CommentCard = React.memo(({body, email}: CommentCardProps) => {
   return (
-    <View style={styles.container}>
-      <Text>{email}</Text>
+    <View testID="CommentCardElement" style={styles.container}>
+      <Text testID="CommentCardEmail">{email}</Text>
       <View style={styles.separator}></View>
-      <Text>{body}</Text>
+      <Text testID="CommentCardBody">{body}</Text>
     </View>
   );
 });

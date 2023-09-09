@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
 
 const NoNetConnection = React.memo(() => {
   return (
-    <View style={styles.center}>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <View style={styles.center}>
         <Icon color={COLORS.gray} name="wifi" size={20} />
         <Text style={styles.copy}>no internet connection</Text>
       </View>

@@ -100,47 +100,43 @@ export const PostDetails = ({route}: PostDetailsNavigationProp) => {
 
   if (isLoading)
     return (
-      <View style={{alignItems: 'center'}}>
-        <Skeleton
-          mY={4}
-          color={COLORS.seaBook}
-          bR={4}
-          w={SCREEN_WIDTH / 2}
-          h={49}
-        />
-        <Skeleton
-          mY={4}
-          color={COLORS.seaBook}
-          bR={4}
-          w={SCREEN_WIDTH / 1.2}
-          h={100}
-        />
-        <Skeleton
-          mY={8}
-          color={COLORS.seaBook}
-          bR={4}
-          w={SCREEN_WIDTH * 0.95}
-          h={49}
-        />
-        <Skeleton
-          mY={8}
-          color={COLORS.seaBook}
-          bR={4}
-          w={SCREEN_WIDTH * 0.95}
-          h={49}
-        />
-      </View>
-    );
-
-  if (!isLoading && !post && !postDetails)
-    return (
       <ViewLayout>
-        <NoNetConnection />
+        <View style={{alignItems: 'center'}}>
+          <Skeleton
+            mY={4}
+            color={COLORS.seaBook}
+            bR={4}
+            w={SCREEN_WIDTH / 2}
+            h={49}
+          />
+          <Skeleton
+            mY={4}
+            color={COLORS.seaBook}
+            bR={4}
+            w={SCREEN_WIDTH / 1.2}
+            h={100}
+          />
+          <Skeleton
+            mY={8}
+            color={COLORS.seaBook}
+            bR={4}
+            w={SCREEN_WIDTH * 0.95}
+            h={49}
+          />
+          <Skeleton
+            mY={8}
+            color={COLORS.seaBook}
+            bR={4}
+            w={SCREEN_WIDTH * 0.95}
+            h={49}
+          />
+        </View>
       </ViewLayout>
     );
 
   return (
     <ViewLayout>
+      {/* @ts-ignore */}
       <Title style={{marginBottom: 4}}>{post.title}</Title>
       <StarRating
         style={{alignSelf: 'center'}}
@@ -150,6 +146,7 @@ export const PostDetails = ({route}: PostDetailsNavigationProp) => {
       />
       <Text style={{padding: 24}}>
         <Text style={{fontWeight: 'bold', fontSize: 28}}>“</Text>
+        {/* @ts-ignore */}
         {post.body}
         <Text style={{fontWeight: 'bold', fontSize: 28}}>”</Text>
       </Text>
@@ -200,9 +197,7 @@ export const PostDetails = ({route}: PostDetailsNavigationProp) => {
           />
         </>
       ) : (
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <NoNetConnection />
-        </View>
+        <NoNetConnection />
       )}
     </ViewLayout>
   );
