@@ -15,6 +15,8 @@ import {displayErrorMessage} from '../libs/displayErrorToast';
 import {View, Dimensions} from 'react-native';
 import {COLORS} from '../styles/colors';
 import {setPosts, filterFavoritePosts} from '../store/reducers/posts';
+import {useNetInfo} from '@react-native-community/netinfo';
+
 import {ActionButton} from '../components/actionButton';
 
 type HomeScreenNavigationProp = NativeStackScreenProps<
@@ -30,6 +32,8 @@ export const HomeScreen = ({navigation}: HomeScreenNavigationProp) => {
   const posts = useAppSelector(state => state.posts.posts);
   const dispatch = useAppDispatch();
 
+  const netInfo = useNetInfo();
+
   const handleFetchPosts = (signal: AbortSignal) => {
     setIsLoading(true);
 
@@ -44,12 +48,12 @@ export const HomeScreen = ({navigation}: HomeScreenNavigationProp) => {
     const controller = new AbortController();
     const {signal} = controller;
 
-    handleFetchPosts(signal);
+    if (netInfo.isInternetReachable && !posts.length) handleFetchPosts(signal);
 
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [netInfo, posts.length]);
 
   const handlePostDetailsRedirection = React.useCallback(
     (postId: Post['id'], userId: Post['userId']) => {

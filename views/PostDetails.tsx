@@ -6,7 +6,6 @@ import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../components/routing/type';
 import {Text} from '../components/fragments/Text';
 import {useBoolean} from '../hooks/useBoolean';
-import {Post, getPostRating} from '../store/reducers/posts';
 import {ViewLayout} from '../components/layout/ViewLayout';
 import {Title} from '../components/fragments/Title';
 import {CommentsBox} from '../components/commentsBox';
@@ -18,36 +17,20 @@ import {COLORS} from '../styles/colors';
 import {displayErrorMessage} from '../libs/displayErrorToast';
 import StarRating from 'react-native-star-rating-widget';
 import {useAppDispatch, useAppSelector} from '../hooks';
-import {addPostRating} from '../store/reducers/posts';
+import {
+  addPostRating,
+  savePostDetails,
+  getPostDetails,
+  getPost,
+  getPostRating,
+} from '../store/reducers/posts';
+import {useNetInfo} from '@react-native-community/netinfo';
+import {NoNetConnection} from '../components/fragments/NoNetConnection';
 
 type PostDetailsNavigationProp = NativeStackScreenProps<
   RootStackParamList,
   'PostDetails'
 >;
-
-export interface PostComment {
-  postId: number;
-  id: number;
-  name: string;
-  email: string;
-  body: string;
-}
-
-export interface AuthorInformation {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  address: {
-    street: string;
-    city: string;
-  };
-  phone: string;
-  website: string;
-  company: {
-    name: string;
-  };
-}
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -58,65 +41,50 @@ export const PostDetails = ({route}: PostDetailsNavigationProp) => {
     [route.params],
   );
 
+  const netInfo = useNetInfo();
+
   const dispatch = useAppDispatch();
+
   const rating = useAppSelector(state => getPostRating(state, postId));
+  const postDetails = useAppSelector(state => getPostDetails(state, postId));
+  const post = useAppSelector(state => getPost(state, postId));
 
   const [isLoading, setIsLoading] = useBoolean(true);
-  const [postDetails, setPostDetails] = React.useState<
-    Omit<Post, 'id' | 'userId'>
-  >({
-    body: '',
-    title: '',
-  });
-  const [comments, setComments] = React.useState<Array<PostComment>>([]);
-  const [authorInformation, setAuthorInformation] = React.useState<
-    Omit<AuthorInformation, 'id'>
-  >({
-    address: {
-      city: '',
-      street: '',
-    },
-    company: {
-      name: '',
-    },
-    email: '',
-    name: '',
-    phone: '',
-    username: '',
-    website: '',
-  });
 
   React.useEffect(() => {
     const controller = new AbortController();
     const {signal} = controller;
 
-    Promise.all([
-      fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`, {
-        signal,
-      }).then(response => response.json()),
-      fetch(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`, {
-        signal,
-      }).then(response => response.json()),
-      fetch(`https://jsonplaceholder.typicode.com/users/${userId}`, {
-        signal,
-      }).then(response => response.json()),
-    ])
-      .then(([postDetails, comments, authorInformation]) => {
-        setPostDetails(postDetails as Post);
-        setComments(comments as Array<PostComment>);
-        setAuthorInformation(authorInformation as AuthorInformation);
-      })
-      .catch(error => {
-        displayErrorMessage(error.message);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    if (netInfo.isInternetReachable) {
+      Promise.all([
+        fetch(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`, {
+          signal,
+        }).then(response => response.json()),
+        fetch(`https://jsonplaceholder.typicode.com/users/${userId}`, {
+          signal,
+        }).then(response => response.json()),
+      ])
+        .then(([comments, authorInformation]) => {
+          dispatch(
+            savePostDetails({
+              id: postId,
+              comments,
+              author: authorInformation,
+            }),
+          );
+        })
+        .catch(error => {
+          displayErrorMessage(error.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else setIsLoading(false);
 
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [netInfo.isInternetReachable]);
 
   const handleChangeRating = React.useCallback(
     (ratingValue: number) => {
@@ -130,64 +98,75 @@ export const PostDetails = ({route}: PostDetailsNavigationProp) => {
     [dispatch, postId, addPostRating],
   );
 
+  if (isLoading)
+    return (
+      <View style={{alignItems: 'center'}}>
+        <Skeleton
+          mY={4}
+          color={COLORS.seaBook}
+          bR={4}
+          w={SCREEN_WIDTH / 2}
+          h={49}
+        />
+        <Skeleton
+          mY={4}
+          color={COLORS.seaBook}
+          bR={4}
+          w={SCREEN_WIDTH / 1.2}
+          h={100}
+        />
+        <Skeleton
+          mY={8}
+          color={COLORS.seaBook}
+          bR={4}
+          w={SCREEN_WIDTH * 0.95}
+          h={49}
+        />
+        <Skeleton
+          mY={8}
+          color={COLORS.seaBook}
+          bR={4}
+          w={SCREEN_WIDTH * 0.95}
+          h={49}
+        />
+      </View>
+    );
+
+  if (!isLoading && !post && !postDetails)
+    return (
+      <ViewLayout>
+        <NoNetConnection />
+      </ViewLayout>
+    );
+
   return (
     <ViewLayout>
-      {isLoading ? (
-        <View style={{alignItems: 'center'}}>
-          <Skeleton
-            mY={4}
-            color={COLORS.seaBook}
-            bR={4}
-            w={SCREEN_WIDTH / 2}
-            h={49}
-          />
-          <Skeleton
-            mY={4}
-            color={COLORS.seaBook}
-            bR={4}
-            w={SCREEN_WIDTH / 1.2}
-            h={100}
-          />
-          <Skeleton
-            mY={8}
-            color={COLORS.seaBook}
-            bR={4}
-            w={SCREEN_WIDTH * 0.95}
-            h={49}
-          />
-          <Skeleton
-            mY={8}
-            color={COLORS.seaBook}
-            bR={4}
-            w={SCREEN_WIDTH * 0.95}
-            h={49}
-          />
-        </View>
-      ) : (
+      <Title style={{marginBottom: 4}}>{post.title}</Title>
+      <StarRating
+        style={{alignSelf: 'center'}}
+        rating={rating.value}
+        color={COLORS.yellow}
+        onChange={handleChangeRating}
+      />
+      <Text style={{padding: 24}}>
+        <Text style={{fontWeight: 'bold', fontSize: 28}}>“</Text>
+        {post.body}
+        <Text style={{fontWeight: 'bold', fontSize: 28}}>”</Text>
+      </Text>
+
+      {postDetails ? (
         <>
-          <Title style={{marginBottom: 4}}>{postDetails.title}</Title>
-          <StarRating
-            style={{alignSelf: 'center'}}
-            rating={rating.value}
-            color={COLORS.yellow}
-            onChange={handleChangeRating}
-          />
-          <Text style={{padding: 24}}>
-            <Text style={{fontWeight: 'bold', fontSize: 28}}>“</Text>
-            {postDetails.body}
-            <Text style={{fontWeight: 'bold', fontSize: 28}}>”</Text>
-          </Text>
           <AccordionList
             list={[
               {
                 id: 1,
                 title: 'Author information',
-                body: <AuthorCard id={userId} {...authorInformation} />,
+                body: <AuthorCard {...postDetails.author} />,
               },
               {
                 id: 2,
                 title: 'Comments',
-                body: <CommentsBox comments={comments} />,
+                body: <CommentsBox comments={postDetails.comments} />,
               },
             ]}
             header={({title}: {title: string}) => (
@@ -220,6 +199,10 @@ export const PostDetails = ({route}: PostDetailsNavigationProp) => {
             )}
           />
         </>
+      ) : (
+        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+          <NoNetConnection />
+        </View>
       )}
     </ViewLayout>
   );
