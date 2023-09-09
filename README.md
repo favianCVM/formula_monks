@@ -1,36 +1,5 @@
-<div align="center" id="top"> 
-  <img src="./.github/app.gif" alt="FormulaMonksApp" />
-
-&#xa0;
-
-  <!-- <a href="https://formulamonksapp.netlify.app">Demo</a> -->
-</div>
-
 <h1 align="center">FormulaMonksApp</h1>
 
-<p align="center">
-  <img alt="Github top language" src="https://img.shields.io/github/languages/top/{{YOUR_GITHUB_USERNAME}}/formulamonksapp?color=56BEB8">
-
-  <img alt="Github language count" src="https://img.shields.io/github/languages/count/{{YOUR_GITHUB_USERNAME}}/formulamonksapp?color=56BEB8">
-
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/{{YOUR_GITHUB_USERNAME}}/formulamonksapp?color=56BEB8">
-
-  <img alt="License" src="https://img.shields.io/github/license/{{YOUR_GITHUB_USERNAME}}/formulamonksapp?color=56BEB8">
-
-  <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/{{YOUR_GITHUB_USERNAME}}/formulamonksapp?color=56BEB8" /> -->
-
-  <!-- <img alt="Github forks" src="https://img.shields.io/github/forks/{{YOUR_GITHUB_USERNAME}}/formulamonksapp?color=56BEB8" /> -->
-
-  <!-- <img alt="Github stars" src="https://img.shields.io/github/stars/{{YOUR_GITHUB_USERNAME}}/formulamonksapp?color=56BEB8" /> -->
-</p>
-
-<!-- Status -->
-
-<!-- <h4 align="center">
-	🚧  FormulaMonksApp 🚀 Under construction...  🚧
-</h4>
-
-<hr> -->
 
 <p align="center">
   <a href="#dart-about">About</a> &#xa0; | &#xa0; 
@@ -39,30 +8,45 @@
   <a href="#white_check_mark-requirements">Requirements</a> &#xa0; | &#xa0;
   <a href="#checkered_flag-starting">Starting</a> &#xa0; | &#xa0;
   <a href="#memo-license">License</a> &#xa0; | &#xa0;
-  <a href="https://github.com/{{YOUR_GITHUB_USERNAME}}" target="_blank">Author</a>
+  <a href="https://github.com/favianCVM" target="_blank">Author</a>
 </p>
 
 <br>
 
 ## :dart: About
 
-Describe your project
+This is a tech test project for the react-native developer position in formula.monks
 
 ## :sparkles: Features
 
-:heavy_check_mark: Feature 1;\
-:heavy_check_mark: Feature 2;\
-:heavy_check_mark: Feature 3;
+:heavy_check_mark: Post loading from JSON API;\
+:heavy_check_mark: Post card title dynamic height;\
+:heavy_check_mark: Post details view which displays author information and comments;\
+:heavy_check_mark: Favorite/unfavorite functionality where favorite ones will be listed at the top;\
+:heavy_check_mark: Delete post functionality;\
+:heavy_check_mark: Delete all non favorite post functionality;\
+:heavy_check_mark: Reload all post functionality;\
+:heavy_check_mark: Off-line post details visualization funtionality;
 
 ## :rocket: Technologies
 
 The following tools were used in this project:
 
-- [Expo](https://expo.io/)
-- [Node.js](https://nodejs.org/en/)
-- [React](https://pt-br.reactjs.org/)
-- [React Native](https://reactnative.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
+- React
+- React-native (react-native-cli)
+- redux
+- redux-toolkit
+- react-redux
+
+## :rocket: Libraries
+
+The following libraries were used in this project:
+
+- react-native-skeleton-loaders: this brings the display placeholder boxes for better user experience
+- react-native-star-rating-widget: this component brings a five stars rating button component which handles the rating functionality
+- react-native-toast-message: This library allows to display a toast message with low amount of implementation
+- react-native-vector-icons: This library allows to use a set pre-defined icons
+- accordion-collapse-react-native: This library brings a accordion-collapse component ready to use (this component displays post author and comments in details screen) 
 
 ## :white_check_mark: Requirements
 
@@ -72,25 +56,27 @@ Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) an
 
 ```bash
 # Clone this project
-$ git clone https://github.com/{{YOUR_GITHUB_USERNAME}}/formulamonksapp
+$ git clone https://github.com/favianCVM/formula_monks
 
 # Access
-$ cd formulamonksapp
+$ cd formulaMonksApp
 
 # Install dependencies
 $ yarn
 
-# Run the project
-$ yarn start
+# Run the project (android)
+$ yarn start-android 
 
-# The server will initialize in the <http://localhost:3000>
+# Run the project (ios)
+$ yarn start-ios
+
 ```
 
 ## :memo: License
 
 This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file.
 
-Made with :heart: by <a href="https://github.com/{{YOUR_GITHUB_USERNAME}}" target="_blank">{{YOUR_NAME}}</a>
+Made with :heart: by <a href="https://github.com/favianCVM" target="_blank">Fabian salazar</a>
 
 &#xa0;
 
