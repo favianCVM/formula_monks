@@ -5,35 +5,13 @@
   <a href="#sparkles-features">Features</a> &#xa0; | &#xa0;
   <a href="#rocket-technologies">Technologies</a> &#xa0; | &#xa0;
   <a href="#white_check_mark-requirements">Requirements</a> &#xa0; | &#xa0;
+  <a href="#open_file_folder-folder-structure">Folder structure</a> &#xa0; | &#xa0;
   <a href="#checkered_flag-starting">Starting</a> &#xa0; | &#xa0;
   <a href="#memo-license">License</a> &#xa0; | &#xa0;
   <a href="https://github.com/favianCVM" target="_blank">Author</a>
 </p>
 
 <br>
-
-## :folder: Structure
-
-```bash
-.
-├──__tests__
-├──views
-├──components
-├──hooks
-├──store
-├──libs
-├──styles
-├──App.tsx
-```
-
-- **tests**: unit test folder
-- views: App views components folder
-- components: App components folder
-- hooks: App custom hooks folder
-- store: App redux store folder
-- libs: App libs functionality folder (i.ex: error displaying or size normalization utils)
-- styles: App styles utilities folder
-- App.tsx: App entry point
 
 ## :dart: About
 
@@ -75,6 +53,29 @@ The following libraries were used in this project:
 ## :white_check_mark: Requirements
 
 Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) and [Node](https://nodejs.org/en/) installed.
+
+## :open_file_folder: Folder structure
+
+```bash
+.
+├──__tests__
+├──views
+├──components
+├──hooks
+├──store
+├──libs
+├──styles
+├──App.tsx
+```
+
+- **tests**: unit test folder
+- views: App views components folder
+- components: App components folder
+- hooks: App custom hooks folder
+- store: App redux store folder
+- libs: App libs functionality folder (i.ex: error displaying or size normalization utils)
+- styles: App styles utilities folder
+- App.tsx: App entry point
 
 ## :checkered_flag: Starting
 
