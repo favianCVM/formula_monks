@@ -2,7 +2,7 @@ import React from 'react';
 import {Skeleton} from 'react-native-skeleton-loaders';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {useAppSelector} from '../hooks';
+import {useAppSelector, useAppDispatch} from '../hooks';
 import {RootStackParamList} from '../components/routing/type';
 import {Post} from '../store/reducers/posts';
 import {FlatList, GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -14,6 +14,8 @@ import {normalize} from '../libs/normalizeSize';
 import {displayErrorMessage} from '../libs/displayErrorToast';
 import {View, Dimensions} from 'react-native';
 import {COLORS} from '../styles/colors';
+import {setPosts, filterFavoritePosts} from '../store/reducers/posts';
+import {ActionButton} from '../components/actionButton';
 
 type HomeScreenNavigationProp = NativeStackScreenProps<
   RootStackParamList,
@@ -23,20 +25,26 @@ type HomeScreenNavigationProp = NativeStackScreenProps<
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
 
 export const HomeScreen = ({navigation}: HomeScreenNavigationProp) => {
-  const [posts, setPosts] = React.useState<Array<Post>>([]);
   const [isLoading, setIsLoading] = useBoolean(false);
-  const favorites = useAppSelector(state => state.posts.favorites);
+  const favorites = useAppSelector(state => state.postsReducer.favorites);
+  const posts = useAppSelector(state => state.postsReducer.posts);
+  const dispatch = useAppDispatch();
+
+  const handleFetchPosts = (signal: AbortSignal) => {
+    setIsLoading(true);
+
+    fetch('https://jsonplaceholder.typicode.com/posts', {signal})
+      .then(response => response.json())
+      .then(data => dispatch(setPosts(data as Post[])))
+      .catch(error => displayErrorMessage(error.message))
+      .finally(() => setIsLoading(false));
+  };
 
   React.useEffect(() => {
     const controller = new AbortController();
     const {signal} = controller;
 
-    setIsLoading(true);
-    fetch('https://jsonplaceholder.typicode.com/posts', {signal})
-      .then(response => response.json())
-      .then(data => setPosts(data as Post[]))
-      .catch(error => displayErrorMessage(error.message))
-      .finally(() => setIsLoading(false));
+    handleFetchPosts(signal);
 
     return () => {
       controller.abort();
@@ -53,9 +61,33 @@ export const HomeScreen = ({navigation}: HomeScreenNavigationProp) => {
     [navigation],
   );
 
+  const handleFilterFavorites = React.useCallback(() => {
+    dispatch(filterFavoritePosts());
+  }, [filterFavoritePosts, dispatch]);
+
+  const handleReloadPosts = React.useCallback(() => {
+    const controller = new AbortController();
+    const {signal} = controller;
+    handleFetchPosts(signal);
+
+    navigation.addListener('beforeRemove', () => {
+      controller.abort();
+    });
+  }, [dispatch]);
+
   return (
     <ViewLayout>
       <Title style={{marginBottom: 12}}>Favorites: {favorites.length} </Title>
+
+      <View
+        style={{marginBottom: normalize(6), padding: normalize(24), gap: 10}}>
+        <ActionButton onPress={handleFilterFavorites} icon="magnifying-glass">
+          clean non favorites
+        </ActionButton>
+        <ActionButton onPress={handleReloadPosts} icon="arrow-down">
+          reload posts
+        </ActionButton>
+      </View>
 
       {isLoading ? (
         <View style={{alignItems: 'center'}}>

@@ -1,6 +1,10 @@
 import React from 'react';
 import {Post} from '../../store/reducers/posts';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+} from 'react-native';
 import {COLORS} from '../../styles/colors';
 import {useAppDispatch} from '../../hooks';
 import {addFavorite, removeFavorite} from '../../store/reducers/posts';
@@ -74,20 +78,20 @@ const PostCard = React.memo(
         <Text numberOfLines={1} adjustsFontSizeToFit style={styles.title}>
           {title}
         </Text>
-        <Pressable
-          style={({pressed}) => ({
+        <Icon.Button
+          style={{
             padding: 4,
             marginLeft: 4,
             borderRadius: 5,
-          })}
+          }}
+          onPress={handleFavoriteToggle}
           testID="PostCardFavoritePressable"
-          onPress={handleFavoriteToggle}>
-          <Icon
-            size={35}
-            name="heart"
-            color={isFavorite ? COLORS.red : COLORS.text}
-          />
-        </Pressable>
+          size={35}
+          name="heart"
+          backgroundColor={'transparent'}
+          underlayColor={COLORS.red}
+          color={isFavorite ? COLORS.red : COLORS.text}
+        />
       </Pressable>
     );
   },

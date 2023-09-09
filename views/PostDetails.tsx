@@ -55,7 +55,7 @@ export const PostDetails = ({route}: PostDetailsNavigationProp) => {
     [route.params],
   );
 
-  const [isLoading, setIsLoading] = useBoolean(false);
+  const [isLoading, setIsLoading] = useBoolean(true);
   const [postDetails, setPostDetails] = React.useState<
     Omit<Post, 'id' | 'userId'>
   >({
@@ -83,8 +83,6 @@ export const PostDetails = ({route}: PostDetailsNavigationProp) => {
   React.useEffect(() => {
     const controller = new AbortController();
     const {signal} = controller;
-
-    setIsLoading(true);
 
     Promise.all([
       fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`, {
