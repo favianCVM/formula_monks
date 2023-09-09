@@ -1,6 +1,5 @@
 <h1 align="center">FormulaMonksApp</h1>
 
-
 <p align="center">
   <a href="#dart-about">About</a> &#xa0; | &#xa0; 
   <a href="#sparkles-features">Features</a> &#xa0; | &#xa0;
@@ -13,9 +12,34 @@
 
 <br>
 
+## :folder: Structure
+
+```bash
+.
+├──__tests__
+├──views
+├──components
+├──hooks
+├──store
+├──libs
+├──styles
+├──App.tsx
+```
+
+- **tests**: unit test folder
+- views: App views components folder
+- components: App components folder
+- hooks: App custom hooks folder
+- store: App redux store folder
+- libs: App libs functionality folder (i.ex: error displaying or size normalization utils)
+- styles: App styles utilities folder
+- App.tsx: App entry point
+
 ## :dart: About
 
 This is a tech test project for the react-native developer position in formula.monks
+
+The app consist of a Posts app where you can visualize post details like author and its comments and also functionalities like mark as favorite, delete post and rating it with stars.
 
 ## :sparkles: Features
 
@@ -46,7 +70,7 @@ The following libraries were used in this project:
 - react-native-star-rating-widget: this component brings a five stars rating button component which handles the rating functionality
 - react-native-toast-message: This library allows to display a toast message with low amount of implementation
 - react-native-vector-icons: This library allows to use a set pre-defined icons
-- accordion-collapse-react-native: This library brings a accordion-collapse component ready to use (this component displays post author and comments in details screen) 
+- accordion-collapse-react-native: This library brings a accordion-collapse component ready to use (this component displays post author and comments in details screen)
 
 ## :white_check_mark: Requirements
 
@@ -65,7 +89,7 @@ $ cd formulaMonksApp
 $ yarn
 
 # Run the project (android)
-$ yarn start-android 
+$ yarn start-android
 
 # Run the project (ios)
 $ yarn start-ios
