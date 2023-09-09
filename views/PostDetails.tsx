@@ -102,43 +102,6 @@ export const PostDetails = ({route}: PostDetailsNavigationProp) => {
     [dispatch, postId, addPostRating],
   );
 
-  if (isLoading) {
-    return (
-      <ViewLayout>
-        <View style={{alignItems: 'center'}}>
-          <Skeleton
-            mY={4}
-            color={COLORS.seaBook}
-            bR={4}
-            w={SCREEN_WIDTH / 2}
-            h={49}
-          />
-          <Skeleton
-            mY={4}
-            color={COLORS.seaBook}
-            bR={4}
-            w={SCREEN_WIDTH / 1.2}
-            h={100}
-          />
-          <Skeleton
-            mY={8}
-            color={COLORS.seaBook}
-            bR={4}
-            w={SCREEN_WIDTH * 0.95}
-            h={49}
-          />
-          <Skeleton
-            mY={8}
-            color={COLORS.seaBook}
-            bR={4}
-            w={SCREEN_WIDTH * 0.95}
-            h={49}
-          />
-        </View>
-      </ViewLayout>
-    );
-  }
-
   return (
     <ViewLayout>
       <Title style={styles.titleSpacing}>{post.title}</Title>
@@ -151,7 +114,22 @@ export const PostDetails = ({route}: PostDetailsNavigationProp) => {
 
       <Quotes style={styles.quotesSpacing}>{post.body}</Quotes>
 
-      {!postDetails.id && !netInfo.isInternetReachable ? (
+      {isLoading ? (
+        <View style={{alignItems: 'center'}}>
+          <Skeleton
+            color={COLORS.seaBook}
+            bR={4}
+            w={SCREEN_WIDTH * 0.95}
+            h={49}
+          />
+          <Skeleton
+            color={COLORS.seaBook}
+            bR={4}
+            w={SCREEN_WIDTH * 0.95}
+            h={49}
+          />
+        </View>
+      ) : !postDetails.id && !netInfo.isInternetReachable ? (
         <NoNetConnection />
       ) : (
         <DetailsAccordion {...postDetails} />
