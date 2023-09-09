@@ -13,6 +13,7 @@ const ActionButton = React.memo(
   ({icon, children, style, ...props}: ActionButtonProps) => {
     return (
       <Pressable
+        testID="ActionButtonElement"
         style={({pressed}) => ({
           borderColor: COLORS.text,
           borderWidth: 1.5,

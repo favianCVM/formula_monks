@@ -9,11 +9,11 @@ import Icon from 'react-native-vector-icons/FontAwesome6';
 import {Post} from '../../types';
 
 interface PostCardProps extends Post {
-  handleDetailsRedirection: (
+  handleDetailsRedirection?: (
     postId: Post['id'],
     userId: Post['userId'],
   ) => void;
-  isFavorite: boolean;
+  isFavorite?: boolean;
 }
 
 const styles = StyleSheet.create({
@@ -72,40 +72,43 @@ const PostCard = React.memo(
     };
 
     const handleDeletePost = () => {
-      if (isFavorite) dispatch(removeFavorite(id));
+      if (isFavorite) {
+        dispatch(removeFavorite(id));
+      }
       dispatch(removePost(id));
     };
 
     return (
       <Pressable
-        testID="PostCard"
+        testID="PostCardElement"
         style={({pressed}) =>
           pressed ? styles.pressedContainer : styles.container
         }
-        onPress={() => handleDetailsRedirection(id, userId)}>
+        onPress={() =>
+          handleDetailsRedirection && handleDetailsRedirection(id, userId)
+        }>
         <Text numberOfLines={1} adjustsFontSizeToFit style={styles.title}>
           {title}
         </Text>
-        <Icon.Button
-          style={styles.iconButton}
-          onPress={handleDeletePost}
-          testID="PostCardDeletePressable"
-          size={35}
-          name="trash-can"
-          backgroundColor={'transparent'}
-          underlayColor={COLORS.red}
-          color={COLORS.text}
-        />
-        <Icon.Button
-          style={styles.iconButton}
-          onPress={handleFavoriteToggle}
-          testID="PostCardFavoritePressable"
-          size={35}
-          name="heart"
-          backgroundColor={'transparent'}
-          underlayColor={COLORS.red}
-          color={isFavorite ? COLORS.red : COLORS.text}
-        />
+        <Pressable onPress={handleDeletePost}>
+          <Icon
+            style={styles.iconButton}
+            testID="PostCardDeletePressable"
+            size={35}
+            name="trash-can"
+            color={COLORS.text}
+          />
+        </Pressable>
+
+        <Pressable onPress={handleFavoriteToggle}>
+          <Icon
+            style={styles.iconButton}
+            testID="PostCardFavoritePressable"
+            size={35}
+            name="heart"
+            color={isFavorite ? COLORS.red : COLORS.text}
+          />
+        </Pressable>
       </Pressable>
     );
   },

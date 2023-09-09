@@ -84,7 +84,12 @@ export const HomeScreen = ({navigation}: HomeScreenNavigationProp) => {
       <Title style={{marginBottom: 12}}>Favorites: {favorites.length} </Title>
 
       <View
-        style={{marginBottom: normalize(6), padding: normalize(24), gap: 10}}>
+        style={{
+          flexDirection: 'row',
+          marginBottom: normalize(6),
+          padding: normalize(24),
+          gap: 10,
+        }}>
         <ActionButton onPress={handleFilterFavorites} icon="magnifying-glass">
           clean non favorites
         </ActionButton>

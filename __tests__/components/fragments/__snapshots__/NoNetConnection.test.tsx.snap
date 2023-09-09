@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`No net connection fragment renders correctly 1`] = `
+<View
+  style={
+    {
+      "flexDirection": "row",
+      "justifyContent": "center",
+    }
+  }
+  testID="NoNetConnectionFragment"
+>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "alignSelf": "flex-start",
+        "backgroundColor": "#DB4437",
+        "borderRadius": 10,
+        "flexDirection": "row",
+        "gap": 14,
+        "justifyContent": "space-between",
+        "padding": 10,
+      }
+    }
+  >
+    <Icon
+      color="#F0ECE4"
+      name="wifi"
+      size={20}
+    />
+    <Text
+      style={
+        [
+          {
+            "color": "#1B1C1E",
+            "fontSize": 16,
+          },
+          {
+            "fontSize": 57,
+            "fontWeight": "bold",
+            "marginLeft": 28,
+          },
+        ]
+      }
+      testID="TextFragment"
+    >
+      no internet connection
+    </Text>
+  </View>
+</View>
+`;

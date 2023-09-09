@@ -1,0 +1,156 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Post card element renders correctly 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "alignItems": "center",
+      "borderColor": "#1B1C1E",
+      "borderRadius": 8,
+      "borderWidth": 1,
+      "flex": 1,
+      "flexDirection": "row",
+      "justifyContent": "space-between",
+      "marginBottom": 10,
+      "paddingHorizontal": 6,
+      "paddingVertical": 5,
+    }
+  }
+  testID="PostCardElement"
+>
+  <Text
+    adjustsFontSizeToFit={true}
+    numberOfLines={1}
+    style={
+      {
+        "color": "#1B1C1E",
+        "flex": 1,
+        "flexDirection": "row",
+        "fontSize": 47,
+        "justifyContent": "space-between",
+      }
+    }
+  />
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+  >
+    <Icon
+      color="#1B1C1E"
+      name="trash-can"
+      size={35}
+      style={
+        {
+          "borderRadius": 5,
+          "marginLeft": 4,
+          "paddingHorizontal": 0,
+          "paddingVertical": 4,
+        }
+      }
+      testID="PostCardDeletePressable"
+    />
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+  >
+    <Icon
+      color="#1B1C1E"
+      name="heart"
+      size={35}
+      style={
+        {
+          "borderRadius": 5,
+          "marginLeft": 4,
+          "paddingHorizontal": 0,
+          "paddingVertical": 4,
+        }
+      }
+      testID="PostCardFavoritePressable"
+    />
+  </View>
+</View>
+`;

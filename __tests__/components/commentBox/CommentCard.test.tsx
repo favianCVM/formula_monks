@@ -1,7 +1,8 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import {CommentCard} from '../../../components/commentsBox/CommentCard';
-import { PostComment } from '../../../types';
+import {PostComment} from '../../../types';
+import renderer from 'react-test-renderer';
 
 describe('Comment card element', () => {
   const commentPlaceholder: PostComment = {
@@ -22,7 +23,7 @@ describe('Comment card element', () => {
     expect(screen.getByText(commentPlaceholder.email)).toBeVisible();
   });
 
-  it('renders comment card with the given values', () => {
+  it('renders comment card with empty values', () => {
     const {queryByTestId} = render(<CommentCard />);
 
     const commentBody = queryByTestId('CommentCardBody');
@@ -30,5 +31,12 @@ describe('Comment card element', () => {
 
     const commentEmail = queryByTestId('CommentCardEmail');
     expect(commentEmail).toHaveTextContent('');
+  });
+
+  it('renders correctly', () => {
+    const tree = renderer
+      .create(<CommentCard {...commentPlaceholder} />)
+      .toJSON();
+    expect(tree).toMatchSnapshot();
   });
 });

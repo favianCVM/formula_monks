@@ -17,7 +17,9 @@ const AuthorCard = React.memo(
     id,
   }: AuthorInformation) => {
     return (
-      <View style={{backgroundColor: COLORS.gray, padding: 18}}>
+      <View
+        testID="AuthorCardElement"
+        style={{backgroundColor: COLORS.gray, padding: 18}}>
         <View
           style={{
             flexDirection: 'row',
@@ -40,9 +42,18 @@ const AuthorCard = React.memo(
               flex: 1,
               paddingLeft: 20,
             }}>
-            <Text>username: {username}</Text>
-            <Text>name: {name}</Text>
-            <Text>user id: {id}</Text>
+            <View style={{gap: 8, flexDirection: 'row', alignItems: 'center'}}>
+              <Text>username:</Text>
+              <Text>{username}</Text>
+            </View>
+            <View style={{gap: 8, flexDirection: 'row', alignItems: 'center'}}>
+              <Text>name:</Text>
+              <Text>{name}</Text>
+            </View>
+            <View style={{gap: 8, flexDirection: 'row', alignItems: 'center'}}>
+              <Text>user id:</Text>
+              <Text>{id}</Text>
+            </View>
           </View>
         </View>
         <View

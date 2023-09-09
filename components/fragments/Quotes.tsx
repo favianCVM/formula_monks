@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
 });
 
 const Quotes = React.memo(({children, ...props}: TextProps) => (
-  <Text {...props}>
+  <Text testID="QuoteFragment" {...props}>
     <Text style={styles.quotes}>“</Text>
     {children}
     <Text style={styles.quotes}>”</Text>

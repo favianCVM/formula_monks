@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Quotes fragment renders correctly 1`] = `
+<Text
+  style={
+    [
+      {
+        "color": "#1B1C1E",
+        "fontSize": 16,
+      },
+      undefined,
+    ]
+  }
+  testID="QuoteFragment"
+>
+  <Text
+    style={
+      [
+        {
+          "color": "#1B1C1E",
+          "fontSize": 16,
+        },
+        {
+          "fontSize": 28,
+          "fontWeight": "bold",
+        },
+      ]
+    }
+    testID="TextFragment"
+  >
+    “
+  </Text>
+  hello world
+  <Text
+    style={
+      [
+        {
+          "color": "#1B1C1E",
+          "fontSize": 16,
+        },
+        {
+          "fontSize": 28,
+          "fontWeight": "bold",
+        },
+      ]
+    }
+    testID="TextFragment"
+  >
+    ”
+  </Text>
+</Text>
+`;
