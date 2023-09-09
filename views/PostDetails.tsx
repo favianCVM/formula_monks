@@ -1,18 +1,12 @@
 import React from 'react';
-import {View, Dimensions} from 'react-native';
+import {View, Dimensions, StyleSheet} from 'react-native';
 import {Skeleton} from 'react-native-skeleton-loaders';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {RootStackParamList} from '../components/routing/type';
-import {Text} from '../components/fragments/Text';
 import {useBoolean} from '../hooks/useBoolean';
 import {ViewLayout} from '../components/layout/ViewLayout';
 import {Title} from '../components/fragments/Title';
-import {CommentsBox} from '../components/commentsBox';
-import {AuthorCard} from '../components/authorCard';
-//@ts-ignore
-import {AccordionList} from 'accordion-collapse-react-native';
-import Icon from 'react-native-vector-icons/FontAwesome6';
 import {COLORS} from '../styles/colors';
 import {displayErrorMessage} from '../libs/displayErrorToast';
 import StarRating from 'react-native-star-rating-widget';
@@ -26,6 +20,8 @@ import {
 } from '../store/reducers/posts';
 import {useNetInfo} from '@react-native-community/netinfo';
 import {NoNetConnection} from '../components/fragments/NoNetConnection';
+import {DetailsAccordion} from '../components/detailsAccordion';
+import {Quotes} from '../components/fragments/Quotes';
 
 type PostDetailsNavigationProp = NativeStackScreenProps<
   RootStackParamList,
@@ -34,12 +30,20 @@ type PostDetailsNavigationProp = NativeStackScreenProps<
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
+const styles = StyleSheet.create({
+  quotesSpacing: {
+    paddingHorizontal: 22,
+    marginVertical: 20,
+  },
+  titleSpacing: {marginBottom: 4},
+  starsRatingSpacing: {
+    alignSelf: 'center',
+  },
+});
+
 export const PostDetails = ({route}: PostDetailsNavigationProp) => {
   const postId = React.useMemo(() => route.params.postId, [route.params]);
-  const userId = React.useMemo(
-    () => parseInt(route.params.userId),
-    [route.params],
-  );
+  const userId = React.useMemo(() => route.params.userId, [route.params]);
 
   const netInfo = useNetInfo();
 
@@ -98,7 +102,7 @@ export const PostDetails = ({route}: PostDetailsNavigationProp) => {
     [dispatch, postId, addPostRating],
   );
 
-  if (isLoading)
+  if (isLoading) {
     return (
       <ViewLayout>
         <View style={{alignItems: 'center'}}>
@@ -133,71 +137,24 @@ export const PostDetails = ({route}: PostDetailsNavigationProp) => {
         </View>
       </ViewLayout>
     );
+  }
 
   return (
     <ViewLayout>
-      {/* @ts-ignore */}
-      <Title style={{marginBottom: 4}}>{post.title}</Title>
+      <Title style={styles.titleSpacing}>{post.title}</Title>
       <StarRating
-        style={{alignSelf: 'center'}}
+        style={styles.starsRatingSpacing}
         rating={rating.value}
         color={COLORS.yellow}
         onChange={handleChangeRating}
       />
-      <Text style={{padding: 24}}>
-        <Text style={{fontWeight: 'bold', fontSize: 28}}>“</Text>
-        {/* @ts-ignore */}
-        {post.body}
-        <Text style={{fontWeight: 'bold', fontSize: 28}}>”</Text>
-      </Text>
 
-      {postDetails ? (
-        <>
-          <AccordionList
-            list={[
-              {
-                id: 1,
-                title: 'Author information',
-                body: <AuthorCard {...postDetails.author} />,
-              },
-              {
-                id: 2,
-                title: 'Comments',
-                body: <CommentsBox comments={postDetails.comments} />,
-              },
-            ]}
-            header={({title}: {title: string}) => (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderColor: COLORS.text,
-                  borderWidth: 1,
-                  paddingVertical: 12,
-                }}>
-                <Icon
-                  name={title === 'Author information' ? 'user' : 'message'}
-                  size={20}
-                  style={{
-                    marginRight: 20,
-                    padding: 8,
-                    backgroundColor: COLORS.yellow,
-                    borderRadius: 12,
-                  }}
-                />
-                <Title style={{fontSize: 20}}>{title}</Title>
-              </View>
-            )}
-            body={({body}: {body: JSX.Element}) => (
-              <View style={{paddingVertical: 12, backgroundColor: COLORS.gray}}>
-                {body}
-              </View>
-            )}
-          />
-        </>
-      ) : (
+      <Quotes style={styles.quotesSpacing}>{post.body}</Quotes>
+
+      {!postDetails.id && !netInfo.isInternetReachable ? (
         <NoNetConnection />
+      ) : (
+        <DetailsAccordion {...postDetails} />
       )}
     </ViewLayout>
   );

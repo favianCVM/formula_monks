@@ -3,8 +3,7 @@ import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {Text} from '../fragments/Text';
 import {COLORS} from '../../styles/colors';
-import { AuthorInformation } from '../../types';
-
+import {AuthorInformation} from '../../types';
 
 const AuthorCard = React.memo(
   ({
@@ -14,7 +13,7 @@ const AuthorCard = React.memo(
     name,
     phone,
     username,
-    website,
+    // website,
     id,
   }: AuthorInformation) => {
     return (

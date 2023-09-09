@@ -6,7 +6,7 @@ import {useAppDispatch} from '../../hooks';
 import {addFavorite, removeFavorite} from '../../store/reducers/posts';
 import {normalize} from '../../libs/normalizeSize';
 import Icon from 'react-native-vector-icons/FontAwesome6';
-import { Post } from '../../types';
+import {Post} from '../../types';
 
 interface PostCardProps extends Post {
   handleDetailsRedirection: (
@@ -49,6 +49,12 @@ const styles = StyleSheet.create({
     fontSize: normalize(20),
     color: COLORS.text,
   },
+  iconButton: {
+    paddingVertical: 4,
+    paddingHorizontal: 0,
+    marginLeft: 4,
+    borderRadius: 5,
+  },
 });
 
 const PostCard = React.memo(
@@ -81,12 +87,7 @@ const PostCard = React.memo(
           {title}
         </Text>
         <Icon.Button
-          style={{
-            paddingVertical: 4,
-            paddingHorizontal: 0,
-            marginLeft: 4,
-            borderRadius: 5,
-          }}
+          style={styles.iconButton}
           onPress={handleDeletePost}
           testID="PostCardDeletePressable"
           size={35}
@@ -96,12 +97,7 @@ const PostCard = React.memo(
           color={COLORS.text}
         />
         <Icon.Button
-          style={{
-            paddingVertical: 4,
-            paddingHorizontal: 0,
-            marginLeft: 4,
-            borderRadius: 5,
-          }}
+          style={styles.iconButton}
           onPress={handleFavoriteToggle}
           testID="PostCardFavoritePressable"
           size={35}

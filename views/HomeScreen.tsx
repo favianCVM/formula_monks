@@ -17,7 +17,7 @@ import {setPosts, filterFavoritePosts} from '../store/reducers/posts';
 import {useNetInfo} from '@react-native-community/netinfo';
 
 import {ActionButton} from '../components/actionButton';
-import { Post } from '../types';
+import {Post} from '../types';
 
 type HomeScreenNavigationProp = NativeStackScreenProps<
   RootStackParamList,
