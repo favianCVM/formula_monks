@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from '../../store';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import type {RootState} from '../../store';
 
 export interface Post {
   userId: string;
@@ -20,18 +20,18 @@ export const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    addFavorite: (state, { payload }: PayloadAction<Post['id']>) => {
+    addFavorite: (state, {payload}: PayloadAction<Post['id']>) => {
       state.favorites = [...state.favorites, payload];
     },
-    removeFavorite: (state, { payload }: PayloadAction<Post['id']>) => {
+    removeFavorite: (state, {payload}: PayloadAction<Post['id']>) => {
       const newFavorites = [...state.favorites];
       newFavorites.splice(state.favorites.indexOf(payload), 1);
-      state.favorites = [...newFavorites]
+      state.favorites = [...newFavorites];
     },
   },
 });
 
-export const { addFavorite, removeFavorite } = postsSlice.actions
+export const {addFavorite, removeFavorite} = postsSlice.actions;
 export const selectFavorites = (state: RootState) => state.posts;
 
 export default postsSlice.reducer;

@@ -83,6 +83,12 @@ android {
         versionName "1.0"
     }
     signingConfigs {
+         release {
+            storeFile file('formula_monks.keystore')
+            storePassword 'coronel1019'
+            keyAlias 'formula_monks_key'
+            keyPassword 'coronel1019'
+        }
         debug {
             storeFile file('debug.keystore')
             storePassword 'android'

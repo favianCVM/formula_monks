@@ -8,7 +8,6 @@ const ViewLayout = React.memo(({children}: ViewProps) => {
         flex: 1,
         paddingTop: 24,
         backgroundColor: '#F3EFEC',
-        justifyContent: 'flex-start',
       }}>
       {children}
     </View>

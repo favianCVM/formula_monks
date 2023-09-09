@@ -6,5 +6,6 @@ export type RootStackParamList = {
   Home: undefined;
   PostDetails: {
     postId: Post['id'];
+    userId: Post['userId'];
   };
 };

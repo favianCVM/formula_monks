@@ -4,12 +4,14 @@ import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {COLORS} from '../../styles/colors';
 import {useAppDispatch} from '../../hooks';
 import {addFavorite, removeFavorite} from '../../store/reducers/posts';
-import {Title} from '../fragments/Title';
 import {normalize} from '../../libs/normalizeSize';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome6';
 
 interface PostCardProps extends Post {
-  handleDetailsRedirection: (postId: Post['id']) => void;
+  handleDetailsRedirection: (
+    postId: Post['id'],
+    userId: Post['userId'],
+  ) => void;
   isFavorite: boolean;
 }
 
@@ -19,15 +21,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 12,
+    paddingHorizontal: 6,
+    paddingVertical: 5,
+    marginBottom: 10,
+    borderRadius: 8,
+    borderColor: COLORS.text,
+    borderWidth: 1,
   },
   pressedContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'red',
-    paddingVertical: 12,
+    backgroundColor: COLORS.blue,
+    paddingHorizontal: 6,
+    paddingVertical: 5,
+    marginBottom: 10,
+    borderRadius: 8,
+    borderColor: COLORS.text,
+    borderWidth: 1,
   },
   title: {
     flexDirection: 'row',
@@ -40,7 +52,6 @@ const styles = StyleSheet.create({
 
 const PostCard = React.memo(
   ({
-    body,
     title,
     id,
     userId,
@@ -59,17 +70,23 @@ const PostCard = React.memo(
         style={({pressed}) =>
           pressed ? styles.pressedContainer : styles.container
         }
-        onPress={() => handleDetailsRedirection(id)}>
+        onPress={() => handleDetailsRedirection(id, userId)}>
         <Text numberOfLines={1} adjustsFontSizeToFit style={styles.title}>
           {title}
         </Text>
         <Pressable
-          style={{
-            backgroundColor: 'pink',
-          }}
+          style={({pressed}) => ({
+            padding: 4,
+            marginLeft: 4,
+            borderRadius: 5,
+          })}
           testID="PostCardFavoritePressable"
           onPress={handleFavoriteToggle}>
-          <Icon name="" />
+          <Icon
+            size={35}
+            name="heart"
+            color={isFavorite ? COLORS.red : COLORS.text}
+          />
         </Pressable>
       </Pressable>
     );
