@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from "../index"
 export interface Post {
   userId: string;
   id: number;
@@ -13,13 +13,13 @@ export interface Rating {
 }
 interface PostsState {
   favorites: Array<Post['id']>;
-  rating: Array<Rating>;
+  ratings: Array<Rating>;
   posts: Array<Post>;
 }
 
 const initialState: PostsState = {
   favorites: [],
-  rating: [],
+  ratings: [],
   posts: []
 };
 
@@ -41,9 +41,25 @@ export const postsSlice = createSlice({
       newFavorites.splice(state.favorites.indexOf(payload), 1);
       state.favorites = [...newFavorites];
     },
+    addPostRating: (state, { payload }: PayloadAction<Rating>) => {
+      const existingRating = state.ratings.findIndex(({ id }) => id === payload.id);
+
+      if (typeof existingRating === "number") {
+        const newRatings = [...state.ratings];
+        newRatings.splice(existingRating, 1, payload)
+        state.ratings = [...newRatings];
+      } else {
+        state.ratings = [...state.ratings, payload];
+      }
+    },
   },
 });
 
-export const { addFavorite, removeFavorite, setPosts, filterFavoritePosts } = postsSlice.actions;
+export const { addFavorite, removeFavorite, setPosts, filterFavoritePosts, addPostRating } = postsSlice.actions;
+
+export const getPostRating = createSelector(
+  (state: RootState, postId: number) => state.posts.ratings.find(({ id }) => id === postId) || { value: 0, id: postId },
+  postState => postState,
+);
 
 export default postsSlice.reducer;

@@ -6,7 +6,7 @@ import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../components/routing/type';
 import {Text} from '../components/fragments/Text';
 import {useBoolean} from '../hooks/useBoolean';
-import {Post} from '../store/reducers/posts';
+import {Post, getPostRating} from '../store/reducers/posts';
 import {ViewLayout} from '../components/layout/ViewLayout';
 import {Title} from '../components/fragments/Title';
 import {CommentsBox} from '../components/commentsBox';
@@ -16,6 +16,9 @@ import {AccordionList} from 'accordion-collapse-react-native';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {COLORS} from '../styles/colors';
 import {displayErrorMessage} from '../libs/displayErrorToast';
+import StarRating from 'react-native-star-rating-widget';
+import {useAppDispatch, useAppSelector} from '../hooks';
+import {addPostRating} from '../store/reducers/posts';
 
 type PostDetailsNavigationProp = NativeStackScreenProps<
   RootStackParamList,
@@ -54,6 +57,9 @@ export const PostDetails = ({route}: PostDetailsNavigationProp) => {
     () => parseInt(route.params.userId),
     [route.params],
   );
+
+  const dispatch = useAppDispatch();
+  const rating = useAppSelector(state => getPostRating(state, postId));
 
   const [isLoading, setIsLoading] = useBoolean(true);
   const [postDetails, setPostDetails] = React.useState<
@@ -112,6 +118,18 @@ export const PostDetails = ({route}: PostDetailsNavigationProp) => {
     };
   }, []);
 
+  const handleChangeRating = React.useCallback(
+    (ratingValue: number) => {
+      dispatch(
+        addPostRating({
+          id: postId,
+          value: ratingValue,
+        }),
+      );
+    },
+    [dispatch, postId, addPostRating],
+  );
+
   return (
     <ViewLayout>
       {isLoading ? (
@@ -148,6 +166,12 @@ export const PostDetails = ({route}: PostDetailsNavigationProp) => {
       ) : (
         <>
           <Title style={{marginBottom: 4}}>{postDetails.title}</Title>
+          <StarRating
+            style={{alignSelf: 'center'}}
+            rating={rating.value}
+            color={COLORS.yellow}
+            onChange={handleChangeRating}
+          />
           <Text style={{padding: 24}}>
             <Text style={{fontWeight: 'bold', fontSize: 28}}>“</Text>
             {postDetails.body}

@@ -9,7 +9,7 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({
-  postsReducer
+  posts: postsReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

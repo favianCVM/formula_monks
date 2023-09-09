@@ -26,8 +26,8 @@ const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
 
 export const HomeScreen = ({navigation}: HomeScreenNavigationProp) => {
   const [isLoading, setIsLoading] = useBoolean(false);
-  const favorites = useAppSelector(state => state.postsReducer.favorites);
-  const posts = useAppSelector(state => state.postsReducer.posts);
+  const favorites = useAppSelector(state => state.posts.favorites);
+  const posts = useAppSelector(state => state.posts.posts);
   const dispatch = useAppDispatch();
 
   const handleFetchPosts = (signal: AbortSignal) => {
