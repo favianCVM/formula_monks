@@ -1,6 +1,4 @@
-import {Post} from '../../store/reducers/posts';
-
-// type Props = NativeStackScreenProps<RootStackParamList, 'Profile'>;
+import { Post } from "../../types";
 
 export type RootStackParamList = {
   Home: undefined;

@@ -3,7 +3,8 @@ import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {Text} from '../fragments/Text';
 import {COLORS} from '../../styles/colors';
-import { AuthorInformation } from '../../store/reducers/posts';
+import { AuthorInformation } from '../../types';
+
 
 const AuthorCard = React.memo(
   ({

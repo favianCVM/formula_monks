@@ -1,46 +1,7 @@
-import {createSelector, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {RootState} from '../index';
-export interface Post {
-  userId: string;
-  id: number;
-  title: string;
-  body: string;
-}
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../index';
+import { Post, PostDetails, Rating } from '../../types';
 
-export interface Rating {
-  id: Post['id'];
-  value: number;
-}
-
-export interface PostComment {
-  postId: number;
-  id: number;
-  name: string;
-  email: string;
-  body: string;
-}
-
-export interface AuthorInformation {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  address: {
-    street: string;
-    city: string;
-  };
-  phone: string;
-  website: string;
-  company: {
-    name: string;
-  };
-}
-
-interface PostDetails {
-  id: Post['id'];
-  author: AuthorInformation;
-  comments: Array<PostComment>;
-}
 interface PostsReducerState {
   favorites: Array<Post['id']>;
   ratings: Array<Rating>;
@@ -82,31 +43,31 @@ export const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    setPosts: (state, {payload}: PayloadAction<Array<Post>>) => {
+    setPosts: (state, { payload }: PayloadAction<Array<Post>>) => {
       state.posts = [...payload];
     },
-    removePost: (state, {payload}: PayloadAction<Post['id']>) => {
-      state.posts = [...state.posts.filter(({id}) => id !== payload)];
+    removePost: (state, { payload }: PayloadAction<Post['id']>) => {
+      state.posts = [...state.posts.filter(({ id }) => id !== payload)];
     },
     filterFavoritePosts: state => {
       state.posts = [
-        ...state.posts.filter(({id}) => state.favorites.includes(id)),
+        ...state.posts.filter(({ id }) => state.favorites.includes(id)),
       ];
       state.postDetails = [
-        ...state.postDetails.filter(({id}) => state.favorites.includes(id)),
+        ...state.postDetails.filter(({ id }) => state.favorites.includes(id)),
       ];
     },
-    addFavorite: (state, {payload}: PayloadAction<Post['id']>) => {
+    addFavorite: (state, { payload }: PayloadAction<Post['id']>) => {
       state.favorites = [...state.favorites, payload];
     },
-    removeFavorite: (state, {payload}: PayloadAction<Post['id']>) => {
+    removeFavorite: (state, { payload }: PayloadAction<Post['id']>) => {
       const newFavorites = [...state.favorites];
       newFavorites.splice(state.favorites.indexOf(payload), 1);
       state.favorites = [...newFavorites];
     },
-    addPostRating: (state, {payload}: PayloadAction<Rating>) => {
+    addPostRating: (state, { payload }: PayloadAction<Rating>) => {
       const existingRating = state.ratings.findIndex(
-        ({id}) => id === payload.id,
+        ({ id }) => id === payload.id,
       );
 
       if (typeof existingRating === 'number' && existingRating >= 0) {
@@ -117,9 +78,9 @@ export const postsSlice = createSlice({
         state.ratings = [...state.ratings, payload];
       }
     },
-    savePostDetails: (state, {payload}: PayloadAction<PostDetails>) => {
+    savePostDetails: (state, { payload }: PayloadAction<PostDetails>) => {
       const existingDetails = state.ratings.findIndex(
-        ({id}) => id === payload.id,
+        ({ id }) => id === payload.id,
       );
 
       if (typeof existingDetails === 'number' && existingDetails >= 0) {
@@ -145,19 +106,19 @@ export const {
 
 export const getPostRating = createSelector(
   (state: RootState, postId: number) =>
-    state.posts.ratings.find(({id}) => id === postId) || {value: 0, id: postId},
+    state.posts.ratings.find(({ id }) => id === postId) || { value: 0, id: postId },
   postState => postState,
 );
 
 export const getPostDetails = createSelector(
   (state: RootState, postId: number) =>
-    state.posts.postDetails.find(({id}) => id === postId),
+    state.posts.postDetails.find(({ id }) => id === postId),
   postState => postState,
 );
 
 export const getPost = createSelector(
   (state: RootState, postId: number) =>
-    state.posts.posts.find(({id}) => id === postId),
+    state.posts.posts.find(({ id }) => id === postId),
   postState => postState,
 );
 

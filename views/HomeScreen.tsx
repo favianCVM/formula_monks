@@ -4,7 +4,6 @@ import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {useAppSelector, useAppDispatch} from '../hooks';
 import {RootStackParamList} from '../components/routing/type';
-import {Post} from '../store/reducers/posts';
 import {FlatList, GestureHandlerRootView} from 'react-native-gesture-handler';
 import {PostCard} from '../components/postCard';
 import {ViewLayout} from '../components/layout/ViewLayout';
@@ -18,6 +17,7 @@ import {setPosts, filterFavoritePosts} from '../store/reducers/posts';
 import {useNetInfo} from '@react-native-community/netinfo';
 
 import {ActionButton} from '../components/actionButton';
+import { Post } from '../types';
 
 type HomeScreenNavigationProp = NativeStackScreenProps<
   RootStackParamList,

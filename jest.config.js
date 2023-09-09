@@ -1,7 +1,7 @@
 module.exports = {
   preset: 'react-native',
   transformIgnorePatterns: [
-    "/node_modules/(?!(@react-native|react-native)/).*/"
+    '/node_modules/(?!(@react-native|react-native)/).*/',
   ],
-  setupFilesAfterEnv: ["./jest-setup-after-env.js"]
+  setupFilesAfterEnv: ['./jest-setup-after-env.js'],
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react-native';
 import {CommentCard} from '../../../components/commentsBox/CommentCard';
-import {PostComment} from '../../../store/reducers/posts';
+import { PostComment } from '../../../types';
 
 describe('Comment card element', () => {
   const commentPlaceholder: PostComment = {

@@ -16,5 +16,4 @@ describe('Text fragment', () => {
     const textFragment = getByTestId('TextFragment');
     expect(textFragment).toHaveTextContent('');
   });
-
 });

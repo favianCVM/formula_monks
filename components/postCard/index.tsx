@@ -1,11 +1,12 @@
 import React from 'react';
-import {Post, removePost} from '../../store/reducers/posts';
+import {removePost} from '../../store/reducers/posts';
 import {Pressable, StyleSheet, Text} from 'react-native';
 import {COLORS} from '../../styles/colors';
 import {useAppDispatch} from '../../hooks';
 import {addFavorite, removeFavorite} from '../../store/reducers/posts';
 import {normalize} from '../../libs/normalizeSize';
 import Icon from 'react-native-vector-icons/FontAwesome6';
+import { Post } from '../../types';
 
 interface PostCardProps extends Post {
   handleDetailsRedirection: (

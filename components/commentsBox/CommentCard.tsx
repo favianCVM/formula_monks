@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Text} from '../fragments/Text';
 import {COLORS} from '../../styles/colors';
-import {PostComment} from '../../store/reducers/posts';
+import { PostComment } from '../../types';
 
 interface CommentCardProps extends Partial<PostComment> {}
 
