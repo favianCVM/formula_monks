@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Dimensions, StyleSheet} from 'react-native';
-import {Skeleton} from 'react-native-skeleton-loaders';
+import {Dimensions, StyleSheet} from 'react-native';
+import {SkeletonGroup, Skeleton} from 'react-native-skeleton-loaders';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {RootStackParamList} from '../components/routing/type';
@@ -53,42 +53,45 @@ export const PostDetails = ({route}: PostDetailsNavigationProp) => {
   const postDetails = useAppSelector(state => getPostDetails(state, postId));
   const post = useAppSelector(state => getPost(state, postId));
 
-  const [isLoading, setIsLoading] = useBoolean(true);
+  const [isLoading, setIsLoading] = useBoolean(false);
+
+  const handleFetchDetails = (signal: AbortSignal) => {
+    setIsLoading(true);
+    Promise.all([
+      fetch(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`, {
+        signal,
+      }).then(response => response.json()),
+      fetch(`https://jsonplaceholder.typicode.com/users/${userId}`, {
+        signal,
+      }).then(response => response.json()),
+    ])
+      .then(([comments, authorInformation]) => {
+        dispatch(
+          savePostDetails({
+            id: postId,
+            comments,
+            author: authorInformation,
+          }),
+        );
+      })
+      .catch(error => {
+        displayErrorMessage(error.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   React.useEffect(() => {
     const controller = new AbortController();
     const {signal} = controller;
 
-    if (netInfo.isInternetReachable) {
-      Promise.all([
-        fetch(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`, {
-          signal,
-        }).then(response => response.json()),
-        fetch(`https://jsonplaceholder.typicode.com/users/${userId}`, {
-          signal,
-        }).then(response => response.json()),
-      ])
-        .then(([comments, authorInformation]) => {
-          dispatch(
-            savePostDetails({
-              id: postId,
-              comments,
-              author: authorInformation,
-            }),
-          );
-        })
-        .catch(error => {
-          displayErrorMessage(error.message);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    } else setIsLoading(false);
+    if (!postDetails && netInfo.isConnected) handleFetchDetails(signal);
 
     return () => {
       controller.abort();
     };
-  }, [netInfo.isInternetReachable]);
+  }, [netInfo]);
 
   const handleChangeRating = React.useCallback(
     (ratingValue: number) => {
@@ -100,6 +103,16 @@ export const PostDetails = ({route}: PostDetailsNavigationProp) => {
       );
     },
     [dispatch, postId, addPostRating],
+  );
+
+  const displayNoNetworkConnection = React.useMemo(
+    () =>
+      !postDetails &&
+      netInfo.isConnected !== null &&
+      !netInfo.isConnected &&
+      netInfo.isInternetReachable !== null &&
+      !netInfo.isInternetReachable,
+    [netInfo, postDetails],
   );
 
   return (
@@ -115,25 +128,17 @@ export const PostDetails = ({route}: PostDetailsNavigationProp) => {
       <Quotes style={styles.quotesSpacing}>{post.body}</Quotes>
 
       {isLoading ? (
-        <View style={{alignItems: 'center'}}>
-          <Skeleton
-            color={COLORS.seaBook}
-            bR={4}
-            w={SCREEN_WIDTH * 0.95}
-            h={49}
-          />
-          <Skeleton
-            color={COLORS.seaBook}
-            bR={4}
-            w={SCREEN_WIDTH * 0.95}
-            h={49}
-          />
-        </View>
-      ) : !postDetails.id && !netInfo.isInternetReachable ? (
-        <NoNetConnection />
-      ) : (
+        <SkeletonGroup
+          numberOfItems={2}
+          direction="column"
+          stagger={{delay: 3}}>
+          <Skeleton color={COLORS.seaBook} bR={4} w={SCREEN_WIDTH} h={49} />
+        </SkeletonGroup>
+      ) : postDetails ? (
         <DetailsAccordion {...postDetails} />
-      )}
+      ) : displayNoNetworkConnection ? (
+        <NoNetConnection />
+      ) : null}
     </ViewLayout>
   );
 };

@@ -49,6 +49,7 @@ export const postsSlice = createSlice({
   reducers: {
     setPosts: (state, {payload}: PayloadAction<Array<Post>>) => {
       state.posts = [...payload];
+      state.postDetails = [];
     },
     removePost: (state, {payload}: PayloadAction<Post['id']>) => {
       state.posts = [...state.posts.filter(({id}) => id !== payload)];
@@ -115,9 +116,8 @@ export const getPostRating = createSelector(
 );
 
 export const getPostDetails = createSelector(
-  (state: RootState, postId: number) =>
-    state.posts.postDetails.find(({id}) => id === postId) ||
-    postDetailsPlaceholder,
+  (state: RootState, postId: number): PostDetails | undefined =>
+    state.posts.postDetails.find(({id}) => id === postId),
   postState => postState,
 );
 
